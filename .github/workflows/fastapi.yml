@@ -1,0 +1,29 @@
+name: Continuous Integration - FastAPI
+
+on:  
+  push:
+    branches:
+      - lokesh
+      - dev
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.10.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10.9
+          cache: pip  
+
+      - name: Install requirement
+        run: pip install -r ./application/req.txt    
+
+      - name: Run tests
+        run: pytest -v ./application/test_main1.py
+        env:
+          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
